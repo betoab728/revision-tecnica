@@ -1,0 +1,193 @@
+*Creacion de tablas*
+====================
+--Tabla TIPO_FLOTA--
+CREATE TABLE `bd_mantenimiento`.`TIPO_FLOTA` 
+(`idtipo_flota` INT NOT NULL AUTO_INCREMENT, 
+`nombre_flota` VARCHAR(50) NOT NULL,
+ PRIMARY KEY (`idtipo_flota`))
+ENGINE = InnoDB;
+
+Agregar campo fecha Registro a la Tabla TIPO_FLOTA
+===================================================
+ALTER TABLE `tipo_flota` ADD `fechareg_flota` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `nombre_flota`;
+
+Cambiar le nombre de un campo de una tabla
+===========================================
+ALTER TABLE `tipo_flota` CHANGE `nombre_flota` `tipo_flota` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ALTER TABLE tipo_doc ADD `id_tipodoc_estado` int
+
+--Tabla Sede--
+CREATE TABLE `bd_mantenimiento`.`Sede` 
+(`idsede` INT NOT NULL AUTO_INCREMENT, 
+`nombre_sede` VARCHAR(50) NOT NULL,
+ PRIMARY KEY (`idsede`))
+ENGINE = InnoDB;
+
+
+--Tabla Estado--
+CREATE TABLE `bd_mantenimiento`.`Estado` 
+(`idestado` INT NOT NULL AUTO_INCREMENT, 
+`nombre_estado` VARCHAR(50) NOT NULL,
+ PRIMARY KEY (`idestado`))
+ENGINE = InnoDB;
+
+
+--Tabla TIPO_DOC--
+CREATE TABLE `bd_mantenimiento`.`TIPO_DOC` 
+(`idtipo_doc` INT NOT NULL AUTO_INCREMENT, 
+ `tipo_doc` VARCHAR(50) NOT NULL,
+`nombre_doc` VARCHAR(50) NOT NULL,
+ PRIMARY KEY (`idtipo_doc`))
+ENGINE = InnoDB;
+
+
+ALTER TABLE `tipo_doc` ADD `id_tipodoc_estado` INT(11) NOT NULL AFTER `nombre_doc`;
+
+tablas relacionadas
+ALTER TABLE tipo_doc ADD FOREIGN KEY(id_tipodoc_estado) REFERENCES estado(idestado)
+on DELETE CASCADE
+ON UPDATE CASCADE
+
+=========================================================================
+
+--Tabla Proveedor--
+CREATE TABLE `bd_mantenimiento`.`Proveedor` 
+(`id_prov` INT NOT NULL AUTO_INCREMENT, 
+ `nombre_prov` VARCHAR(50) NOT NULL,
+ PRIMARY KEY (`id_prov`))
+ENGINE = InnoDB;
+
+--TABLA TIPO MANTENIMIENTO---
+CREATE TABLE `bd_mantenimiento`.`TIPO_MANTENIMIENTO` 
+(`idtipo_mant` INT NOT NULL AUTO_INCREMENT,
+`tipo_mant` VARCHAR(50) NOT NULL, 
+ `nombre_mant` VARCHAR(50) NOT NULL,
+ PRIMARY KEY (`idtipo_mant`))
+ENGINE = InnoDB;
+
+--TABLA FLOTA---
+CREATE TABLE `bd_mantenimiento`.`Doc_flota`
+(`id_docflota` int(11) NOT NULL AUTO_INCREMENT,
+`id_flota` int(11) NOT NULL,
+`id_tipodoc` int(11) NOT NULL,
+`id_proveedor` int(11) NOT NULL,
+`fechareg_docflota` timestamp NOT NULL DEFAULT current_timestamp(),
+`precio` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+===========================================
+---TABLA DOC_FLOTA---
+CREATE TABLE `bd_mantenimiento`.`Doc_flota`
+(`id_docflota` int(11) NOT NULL AUTO_INCREMENT,
+`id_flota` int(11) NOT NULL,
+`id_tipodoc` int(11) NOT NULL,
+`id_proveedor` int(11) NOT NULL,
+`fechareg_docflota` timestamp NOT NULL DEFAULT current_timestamp(),
+`precio` float NOT NULL,
+ `fechareg` timestamp NOT NULL DEFAULT current_timestamp(),
+ PRIMARY KEY (`id_docflota`))
+ENGINE = InnoDB;
+
+=============================================
+
+
+----TABLA USUARIOS---
+CREATE TABLE `usuarios` (
+  `idusuario` int(11) NOT NULL,
+  `login_usuario` varchar(20) DEFAULT NULL,
+  `clave_usuario` varchar(10) DEFAULT NULL,
+  `estado_usuario` bit(1) DEFAULT NULL,
+  `idcargo` int(11) DEFAULT NULL
+PRIMARY KEY(`idusuario`))
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+Agregar un campo más
+ALTER TABLE `usuarios` ADD `Fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `idcargo`;
+
+
+======================================================
+CREATE TABLE `empleado` (
+  `idempleado` int(11) NOT NULL,
+  `nombre_empleado` varchar(50) DEFAULT NULL,
+  `apellidos_empleado` varchar(50) DEFAULT NULL,
+  `sexo_empleado` char(1) DEFAULT NULL,
+  `telefono_empleado` char(9) DEFAULT NULL,
+  `fechanac_empleado` date DEFAULT NULL,
+  `tipodoc_empleado` char(1) DEFAULT NULL,
+  `nrodoc_empleado` char(8) DEFAULT NULL,
+  `idusuario` int(11) DEFAULT NULL,
+   PRIMARY KEY (`idempleado`))
+   ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+=========================================================
+
+
+
+
+
+----TABLA PROVEEDORES---
+CREATE TABLE `bd_mantenimiento`.`Proveedores` 
+(`idproveedor` INT NOT NULL AUTO_INCREMENT,
+ `nombre_prov` VARCHAR(50) NOT NULL,
+`usuario` VARCHAR(50) NOT NULL,
+`password` VARCHAR(50) NOT NULL,
+`estado` enum('Activo','Inactivo') NOT NULL,
+PRIMARY KEY (`idusuario`))
+ENGINE = InnoDB;
+
+*************************************
+
+
+
+
+
+************************************
+admin.php ==> para el panel de administración.
+Se copian 4 archivos de adminLte:
+* carpeta -->dist
+* carpeta -->pages
+* carpeta -->plugins
+* index.html
+
+Luego en el proyecto renombrar index.html por index.php.
+
+Separamos en footer y header en arhivos diferentes.
+header.php y footer.php
+
+Luego incluimos el header.php y footer.php en el archivo index.php
+
+Sentencias
+*$_REQUEST:nos permite capturar variables enviadas desde formularios con los 
+   métodos GET o POST. 
+* $_POST en PHP es una variable superglobal que se utiliza para recopilar datos
+ de un formulario HTML y enviarlos a un script de PHP.
+* mysqli->fetch_assoc — 
+  Obtiene una fila del resultado como una matriz asociativa.
+
+*La función mysqli_fetch_array():Se utiliza para recuperar filas de la base de datos 
+y almacenarlas como una matriz. La matriz se puede recuperar como una matriz asociativa, 
+como una matriz numérica o como ambas.
+
+
+*****************************
+Modificar para que el usuario cuando ingrese a login no pueda modificar,
+la direccion y pueda ir a index.php o viciversa.
+Aquí utilizaremos los inicios de sesion
+
+
+
+
+
+
+
+
+
+
+
+
+
